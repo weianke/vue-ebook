@@ -1,0 +1,72 @@
+@import "mixin";
+
+$color-green: rgb(59, 201, 22);
+$color-pink: rgb(255, 102, 159);
+$color-blue: rgb(74, 171, 255);
+$color-yellow: rgb(255, 198, 102);
+$color-green-transparent: rgba(59, 201, 22, .5);
+$color-pink-transparent: rgba(255, 102, 159, .5);
+$color-blue-transparent: rgba(74, 171, 255, .5);
+$color-yellow-transparent: rgba(255, 198, 102, .5);
+
+ // sass中数组对象都用()表示
+$moves: (
+        (startX: 0, startY: 0, endX: 0, endY: 55, width: 6, height: 6, background: $color-green),
+        (startX: 0, startY: 0, endX: 15, endY: 60, width: 4, height: 4, background: $color-pink-transparent),
+        (startX: 0, startY: 0, endX: 35, endY: 45, width: 4, height: 4, background: $color-blue-transparent),
+        (startX: 0, startY: 0, endX: 50, endY: 25, width: 6, height: 6, background: $color-yellow),
+        (startX: 0, startY: 0, endX: 60, endY: 0, width: 2, height: 2, background: $color-pink-transparent),
+        (startX: 0, startY: 0, endX: 50, endY: -25, width: 6, height: 6, background: $color-blue),
+        (startX: 0, startY: 0, endX: 40, endY: -30, width: 3, height: 3, background: $color-green-transparent),
+        (startX: 0, startY: 0, endX: 20, endY: -55, width: 5, height: 5, background: $color-pink),
+        (startX: 0, startY: 0, endX: 5, endY: -45, width: 4, height: 4, background: $color-green-transparent),
+        (startX: 0, startY: 0, endX: -20, endY: -50, width: 2, height: 2, background: $color-pink-transparent),
+        (startX: 0, startY: 0, endX: -40, endY: -50, width: 2, height: 2, background: $color-green-transparent),
+        (startX: 0, startY: 0, endX: -55, endY: -30, width: 4, height: 4, background: $color-blue),
+        (startX: 0, startY: 0, endX: -55, endY: -10, width: 3, height: 3, background: $color-yellow-transparent),
+        (startX: 0, startY: 0, endX: -55, endY: -5, width: 3, height: 3, background: $color-green-transparent),
+        (startX: 0, startY: 0, endX: -35, endY: -7, width: 2, height: 2, background: $color-pink-transparent),
+        (startX: 0, startY: 0, endX: -45, endY: 10, width: 4, height: 4, background: $color-yellow-transparent),
+        (startX: 0, startY: 0, endX: -50, endY: 25, width: 6, height: 6, background: $color-pink),
+        (startX: 0, startY: 0, endX: -40, endY: 35, width: 4, height: 4, background: $color-green-transparent)
+);
+
+@mixin move($index) {
+  // nth是sass中原生方法，第一个参数是数组，第二个参数是数组中元素索引，表示获取第几个元素
+  $item: nth($moves, $index);
+  $keyframesName: "move" + $index;
+  $animationTime: 1s;
+  $animationType: linear;
+  $animationIterator: 1;
+  // map-get是sass中原生方法，第一个参数是对象，第二个参数是要获取的属性名，表示获取对象的属性值
+  $width: map-get($item, width);
+  $height: map-get($item, height);
+  $background: map-get($item, background);
+  $startX: map-get($item, startX);
+  $startY: map-get($item, startY);
+  $endX: map-get($item, endX);
+  $endY: map-get($item, endY);
+  // 开始设置样式
+  width: px2rem($width);
+  height: px2rem($height);
+  background: $background;
+  animation: #{$keyframesName} $animationTime $animationType $animationIterator;
+  @keyframes #{$keyframesName} {
+    0% {
+      transform: translate3d(px2rem($startX), px2rem($startY), 0) scale(0);
+      opacity: 0;
+    }
+    50% {
+      transform: translate3d(px2rem($endX * 0.5), px2rem($endY * 0.5), 0) scale(.5);
+      opacity: 1;
+    }
+    90% {
+      transform: translate3d(px2rem($endX), px2rem($endY), 0) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translate3d(px2rem($endX * 1.05), px2rem($endY * 1.05), 0) scale(1);
+      opacity: 0;
+    }
+  }
+}

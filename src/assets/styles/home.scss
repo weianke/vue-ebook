@@ -1,0 +1,83 @@
+@import "./mixin";
+
+$text-large: px2rem(18);
+$text-big: px2rem(16);
+$text-medium: px2rem(14);
+$text-small: px2rem(12);
+$text-tiny: px2rem(10);
+
+$text-large-lh: px2rem(20);
+$text-big-lh: px2rem(18);
+$text-medium-lh: px2rem(16);
+$text-small-lh: px2rem(15);
+$text-tiny-lh: px2rem(12);
+
+$text-big-max-height3: px2rem(54);
+$text-medium-max-height3: px2rem(48);
+$text-small-max-height3: px2rem(42);
+$text-big-max-height2: px2rem(36);
+$text-medium-max-height2: px2rem(32);
+$text-medium-max-height: px2rem(16);
+$text-small-max-height2: px2rem(30);
+$text-small-max-height: px2rem(15);
+$text-tiny-max-height: px2rem(12);
+
+.title-big {
+  line-height: $text-big-lh;
+  font-size: $text-big;
+  max-height: $text-big-max-height2;
+  color: #444;
+  font-weight: bold;
+  @include nowrap-line(3);
+}
+.title-medium {
+  font-size: $text-medium;
+  line-height: $text-medium-lh;
+  max-height: $text-medium-max-height2;
+  color: #444;
+  font-weight: bold;
+  @include nowrap-line(3);
+}
+.title-small {
+  font-size: $text-small;
+  line-height: $text-small-lh;
+  max-height: $text-small-max-height2;
+  color: #444;
+  font-weight: bold;
+  @include nowrap-line(2);
+}
+.sub-title-medium {
+  line-height: $text-medium-lh;
+  font-size: $text-medium;
+  max-height: $text-medium-max-height2;
+  color: #666;
+  @include nowrap-line(2);
+}
+.sub-title {
+  line-height: $text-small-lh;
+  font-size: $text-small;
+  max-height: $text-small-max-height;
+  color: #666;
+  @include nowrap-line(1);
+}
+.sub-title-tiny {
+  line-height: $text-tiny-lh;
+  font-size: $text-tiny;
+  max-height: $text-tiny-max-height;
+  color: #666;
+  @include nowrap-line(1);
+}
+.third-title {
+  line-height: $text-small-lh;
+  font-size: $text-small;
+  max-height: $text-small-max-height;
+  color: #999;
+  @include nowrap-line(1);
+}
+.third-title-tiny {
+  line-height: $text-tiny-lh;
+  font-size: $text-tiny;
+  max-height: $text-tiny-max-height;
+  color: #999;
+  @include nowrap-line(1);
+}
