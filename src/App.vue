@@ -6,7 +6,17 @@
 </template>
 
 <script>
-  export default {}
+  import { mapActions } from 'vuex'
+  export default {
+    mounted() {
+      this.setTest('1200022')
+    },
+    methods: {
+      ...mapActions('book', [
+        'setTest'
+      ])
+    }
+  }
   document.addEventListener('DOMContentLoaded', () => {
     const html = document.querySelector('html')
     let fontSize = window.innerWidth / 10
@@ -15,10 +25,10 @@
   })
 </script>
 
-<style>
+<style lang="scss" scoped>
+@import "@/assets/styles/mixin.scss";
 .text {
-  font-size: 1rem;
+  font-size: px2rem(20);
   color: orange;
-  font-family: 'Days One';
 }
 </style>
