@@ -6,14 +6,22 @@
 </template>
 
 <script>
-  import { mapActions } from 'vuex'
+  import { mapActions, mapGetters } from 'vuex'
   export default {
     mounted() {
-      this.setTest('1200022')
+      // this.$store.dispatch('setTest', 32).then(() => {
+      //    console.log(this.book)
+      // })
+      this.setTest('23424')
     },
     methods: {
-      ...mapActions('book', [
+      ...mapActions([
         'setTest'
+      ])
+    },
+    computed: {
+      ...mapGetters([
+        'book'
       ])
     }
   }

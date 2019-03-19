@@ -1,27 +1,20 @@
-const state = () => ({
-  test: 1
-})
-
-const mutations = {
-  SET_TEST(state, newTest) {
-    state.test = newTest
+const book = {
+  state: {
+    test: 1
+  },
+  mutations: {
+    SET_TEST(state, newTest) {
+      state.test = newTest
+    }
+  },
+  actions: {
+    setTest({
+      commit,
+      state
+    }, newTest) {
+      return commit('SET_TEST', newTest)
+    }
   }
 }
 
-
-const actions = {
-  setTest({
-    commit,
-    state
-  }, newTest) {
-    commit('SET_TEST', newTest)
-  }
-}
-
-
-export default {
-  namespaced: true,
-  state,
-  mutations,
-  actions
-}
+export default book
