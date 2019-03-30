@@ -11,7 +11,7 @@ Vue.use(VueI18n)
 Vue.config.productionTip = false
 
 const i18n = new VueI18n({
-  locale: 'zh-CN', // 语言标识, 通过切换locale的值来实现语言切换,this.$i18n.locale 
+  locale: 'zh-CN', // 语言标识, 通过切换locale的值来实现语言切换,this.$i18n.locale
   messages: {
     'zh-CN': require('./lang/zh'), // 中文语言包
     'en-US': require('./lang/en') // 英文语言包
