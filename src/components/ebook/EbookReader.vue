@@ -24,10 +24,12 @@ export default {
       }
     },
     toggleTitleAndMenu () {
-      this.$store.dispatch('setMenuVisible', !this.menuVisible)
+      // this.$store.dispatch('setMenuVisible', !this.menuVisible)
+      this.setMenuVisible(!this.menuVisible)
     },
     hideTitleAndMenu () {
-      this.$store.dispatch('setMenuVisible', false)
+      // this.$store.dispatch('setMenuVisible', false)
+      this.setMenuVisible(false)
     },
     initEpub () {
       const url = 'http://192.168.199.129:8081/epub/' + this.fileName + '.epub'
