@@ -5,23 +5,29 @@
 </template>
 
 <script  type='text/ecmascript-6'>
-import { mapGetters } from 'vuex'
+import { ebookMixin } from '../../utils/mixin'
 import Epub from 'epubjs'
 global.ePub = Epub
 export default {
+  mixins: [ebookMixin],
   methods: {
     prevPage () {
       if (this.rendition) {
         this.rendition.prev()
+        this.hideTitleAndMenu()
       }
     },
     nextPage () {
       if (this.rendition) {
         this.rendition.next()
+        this.hideTitleAndMenu()
       }
     },
-    showTitleAndMenu () {
-
+    toggleTitleAndMenu () {
+      this.$store.dispatch('setMenuVisible', !this.menuVisible)
+    },
+    hideTitleAndMenu () {
+      this.$store.dispatch('setMenuVisible', false)
     },
     initEpub () {
       const url = 'http://192.168.199.129:8081/epub/' + this.fileName + '.epub'
@@ -52,7 +58,7 @@ export default {
           this.nextPage()
         } else {
           // 如果没有滑动就显示中间内容
-          this.showTitleAndMenu()
+          this.toggleTitleAndMenu()
         }
         // 禁止默认事件传播
         event.preventDefault()
@@ -65,11 +71,6 @@ export default {
     this.$store.dispatch('setFileName', fileName).then(() => {
       this.initEpub()
     })
-  },
-  computed: {
-    ...mapGetters([
-      'fileName'
-    ])
   }
 }
 </script>
