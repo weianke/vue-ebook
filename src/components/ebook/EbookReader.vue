@@ -70,7 +70,8 @@ export default {
   },
   mounted () {
     const fileName = this.$route.params.filename.split('|').join('/')
-    this.$store.dispatch('setFileName', fileName).then(() => {
+    console.log(this.$route.params.filename)
+    this.setFileName(fileName).then(() => {
       this.initEpub()
     })
   }

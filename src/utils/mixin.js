@@ -1,4 +1,4 @@
-import { mapGetters, mapActions} from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export const ebookMixin = {
   computed: {
@@ -9,6 +9,7 @@ export const ebookMixin = {
   },
   methods: {
     ...mapActions([
+      'setFileName',
       'setMenuVisible'
     ])
   }
