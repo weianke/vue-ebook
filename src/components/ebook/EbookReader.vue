@@ -25,7 +25,7 @@ export default {
     },
     toggleTitleAndMenu () {
       if (this.menuVisible) {
-        this.setSettingVisible(-1)   
+        this.setSettingVisible(-1)
       }
       this.setMenuVisible(!this.menuVisible)
     },
