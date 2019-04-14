@@ -30,6 +30,14 @@
                 ref="rightText">A</span>
         </div>
       </div>
+      <div class="setting-font-family" @click.stop="showFontFamilySetting">
+        <div class="setting-font-family-text-wrapper">
+          <span class="setting-font-family-text">{{defaultFontFamily}}</span>
+        </div>
+        <div class="setting-font-family-icon-wrapper">
+          <span class="icon-forward"></span>
+        </div>
+      </div>
     </div>
   </transition>
 </template>
@@ -49,6 +57,8 @@ export default {
     setFontSize (fontSize) {
       this.setDefaultFontSize(fontSize)
       this.currentBook.rendition.themes.fontSize(fontSize)
+    },
+    showFontFamilySetting () {
     }
   }
 }
