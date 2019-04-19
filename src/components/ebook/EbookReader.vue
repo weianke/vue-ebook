@@ -59,7 +59,7 @@ export default {
           // 往左滑动 返回上一页 根据clientX的差值
           this.prevPage()
         } else if (time < 500 && offsetX < -40) {
-          // 往右滑动 往下一页ewe2
+          // 往右滑动 往下一页
           this.nextPage()
         } else {
           // 如果没有滑动就显示中间内容
