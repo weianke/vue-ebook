@@ -65,7 +65,7 @@ export default {
           // 如果没有滑动就显示中间内容
           this.toggleTitleAndMenu()
         }
-        // 禁止默认事件传播
+        // 禁止默认事件传播2
         event.preventDefault()
         event.stopPropagation()
       })
