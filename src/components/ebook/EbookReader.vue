@@ -62,7 +62,7 @@ export default {
           // 往右滑动 往下一页
           this.nextPage()
         } else {
-          // 如果没有滑动就显示中间内容33
+          // 如果没有滑动就显示中间内容
           this.toggleTitleAndMenu()
         }
         // 禁止默认事件传播
