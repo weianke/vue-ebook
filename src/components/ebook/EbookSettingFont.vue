@@ -59,6 +59,7 @@ export default {
       this.currentBook.rendition.themes.fontSize(fontSize)
     },
     showFontFamilySetting () {
+      this.setFontFamilyVisible(true)
     }
   }
 }
@@ -69,7 +70,7 @@ export default {
 
 .setting-wrapper {
   position: absolute;
-  bottom: px2rem(48);
+  bottom: px2rem(45);
   left: 0;
   z-index: 190;
   display: flex;
@@ -137,6 +138,7 @@ export default {
   }
   .setting-font-family {
     flex: 1;
+    background: #fff;
     font-size: px2rem(14);
     @include center;
     .setting-font-family-text-wrapper {
