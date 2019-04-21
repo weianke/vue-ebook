@@ -7,6 +7,7 @@
 <script  type='text/ecmascript-6'>
 import { ebookMixin } from '../../utils/mixin'
 import Epub from 'epubjs'
+import { Promise } from 'q'
 global.ePub = Epub
 export default {
   mixins: [ebookMixin],
@@ -26,12 +27,14 @@ export default {
     toggleTitleAndMenu () {
       if (this.menuVisible) {
         this.setSettingVisible(-1)
+        this.setFontFamilyVisible(false)
       }
       this.setMenuVisible(!this.menuVisible)
     },
     hideTitleAndMenu () {
       this.setMenuVisible(false)
       this.setSettingVisible(-1)
+      this.setFontFamilyVisible(false)
     },
     initEpub () {
       const url = 'http://192.168.199.129:8081/epub/' + this.fileName + '.epub'
@@ -62,12 +65,23 @@ export default {
           // 往右滑动 往下一页
           this.nextPage()
         } else {
-          // 如果没有滑动就显示中间内容 
+          // 如果没有滑动就显示中间内容
           this.toggleTitleAndMenu()
         }
         // 禁止默认事件传播
         event.preventDefault()
         event.stopPropagation()
+      })
+      // 通过epub的钩子函数改变iframe中字体
+      this.rendition.hooks.content.register(contents => {
+        Promise.all([
+          contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/daysOne.css`),
+          contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/cabin.css`),
+          contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/montserrat.css`),
+          contents.addStylesheet(`${process.env.VUE_APP_RES_URL}/fonts/tangerine.css`)
+        ]).then(() => {
+          // console.log('字体全部加载完毕...')
+        })
       })
     }
   },
