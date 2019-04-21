@@ -8,6 +8,7 @@
 import { ebookMixin } from '../../utils/mixin'
 import Epub from 'epubjs'
 import { Promise } from 'q'
+import { getFontFamily, saveFontFamily, saveFontSize, getFontSize } from '@/utils/localStorage'
 global.ePub = Epub
 export default {
   mixins: [ebookMixin],
@@ -36,6 +37,24 @@ export default {
       this.setSettingVisible(-1)
       this.setFontFamilyVisible(false)
     },
+    initFontSize () {
+      let fontSize = getFontSize(this.fileName)
+      if (!fontSize) {
+        saveFontSize(this.fileName, this.defaultFontSize)
+      } else {
+        this.rendition.themes.fontSize(fontSize)
+        this.setDefaultFontSize(fontSize)
+      }
+    },
+    initFontFamily () {
+      let font = getFontFamily(this.fileName)
+      if (!font) {
+        saveFontFamily(this.fileName, this.defaultFontFamily)
+      } else {
+        this.rendition.themes.font(font)
+        this.setDefaultFontFamily(font)
+      }
+    },
     initEpub () {
       const url = 'http://192.168.199.129:8081/epub/' + this.fileName + '.epub'
       this.book = new Epub(url)
@@ -45,7 +64,12 @@ export default {
         height: innerHeight,
         method: 'default'
       })
-      this.rendition.display()
+      this.rendition.display().then(() => {
+        // 获取本地存储中的字体大小 刷新也不会丢失
+        this.initFontSize()
+        // 获取本地存储中的字体 刷新也不会丢失
+        this.initFontFamily()
+      })
       this.rendition.on('touchstart', event => {
         // 獲取一隻手指點擊屏幕的x軸位置
         this.touchStartX = event.changedTouches[0].clientX
@@ -87,7 +111,6 @@ export default {
   },
   mounted () {
     const fileName = this.$route.params.filename.split('|').join('/')
-    console.log(this.$route.params.filename)
     this.setFileName(fileName).then(() => {
       this.initEpub()
     })
