@@ -47,7 +47,7 @@ export default {
       })
       this.rendition.display()
       this.rendition.on('touchstart', event => {
-        // 獲取一隻手指點擊屏幕的x軸位置2
+        // 獲取一隻手指點擊屏幕的x軸位置
         this.touchStartX = event.changedTouches[0].clientX
         // 獲取手指點擊時間來判斷是否是手指長按屏幕事件
         this.touchStartTime = event.timeStamp
