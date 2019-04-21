@@ -45,6 +45,7 @@
 <script  type='text/ecmascript-6'>
 import { ebookMixin } from '@/utils/mixin'
 import { FONT_SIZE_LIST } from '@/utils/book'
+import { saveFontSize } from '@/utils/localStorage'
 
 export default {
   mixins: [ebookMixin],
@@ -55,6 +56,7 @@ export default {
   },
   methods: {
     setFontSize (fontSize) {
+      saveFontSize(this.fileName, fontSize)
       this.setDefaultFontSize(fontSize)
       this.currentBook.rendition.themes.fontSize(fontSize)
     },
@@ -70,7 +72,7 @@ export default {
 
 .setting-wrapper {
   position: absolute;
-  bottom: px2rem(45);
+  bottom: px2rem(42);
   left: 0;
   z-index: 190;
   display: flex;
