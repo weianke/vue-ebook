@@ -8,7 +8,7 @@
 import { ebookMixin } from '../../utils/mixin'
 import Epub from 'epubjs'
 import { Promise } from 'q'
-import { getFontFamily, saveFontFamily, saveFontSize, getFontSize } from '@/utils/localStorage'
+import { getFontFamily, saveFontFamily, saveFontSize, getFontSize, getTheme, saveTheme } from '@/utils/localStorage'
 global.ePub = Epub
 export default {
   mixins: [ebookMixin],
@@ -55,8 +55,21 @@ export default {
         this.setDefaultFontFamily(font)
       }
     },
+    initTheme () {
+      let defaultTheme = getTheme(this.fileName)
+      if (!defaultTheme) {
+        defaultTheme = this.themeList[0].name
+        saveTheme(this.fileName, defaultTheme)
+      }
+
+      this.themeList.forEach(theme => {
+        this.rendition.themes.register(theme.name, theme.style)
+      })
+      this.setDefaultTheme(defaultTheme)
+      this.rendition.themes.select(defaultTheme)
+    },
     initEpub () {
-      const url = 'http://192.168.199.129:8081/epub/' + this.fileName + '.epub'
+      const url = process.env.VUE_APP_RES_URL + '/epub/' + this.fileName + '.epub'
       this.book = new Epub(url)
       this.setCurrentBook(this.book)
       this.rendition = this.book.renderTo('read', {
@@ -65,10 +78,14 @@ export default {
         method: 'default'
       })
       this.rendition.display().then(() => {
+        // 设置主题
+        this.initTheme()
         // 获取本地存储中的字体大小 刷新也不会丢失
         this.initFontSize()
         // 获取本地存储中的字体 刷新也不会丢失
         this.initFontFamily()
+        // 设置全局样式
+        this.initGlobalStyle()
       })
       this.rendition.on('touchstart', event => {
         // 獲取一隻手指點擊屏幕的x軸位置
