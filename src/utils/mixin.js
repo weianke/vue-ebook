@@ -70,7 +70,7 @@ export const ebookMixin = {
           break
         default:
           addCss(`${process.env.VUE_APP_RES_URL}/theme/theme_default.css`)
-          break;
+          break
       }
     }
   }

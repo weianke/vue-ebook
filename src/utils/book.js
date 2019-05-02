@@ -1,4 +1,3 @@
-import { getReadTime, getLocalStorage, setLocalStorage, removeLocalStorage } from './localStorage'
 import { realPx } from './utils'
 
 export const FONT_SIZE_LIST = [{
