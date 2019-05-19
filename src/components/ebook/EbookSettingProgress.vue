@@ -38,7 +38,7 @@
 
 <script type="text/ecmascript-6">
 import { ebookMixin } from '../../utils/mixin'
-import { saveProgress } from '../../utils/localStorage'
+// import { saveProgress } from '../../utils/localStorage'
 
 export default {
   mixins: [ebookMixin],
@@ -71,9 +71,8 @@ export default {
     // 具体展示分页的页面
     displayProgress () {
       const cfi = this.currentBook.locations.cfiFromPercentage(this.progress / 100)
-      console.log(cfi)
       this.currentBook.rendition.display(cfi)
-    },
+    }
   },
   updated () {
     this.updateProgressBg()
