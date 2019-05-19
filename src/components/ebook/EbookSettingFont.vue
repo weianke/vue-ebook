@@ -81,7 +81,6 @@ export default {
   height: px2rem(90);
   box-shadow: 0 px2rem(-8) px2rem(8) rgba(0, 0, 0, 0.15);
   .setting-font-size {
-    background: #fff;
     flex: 2;
     display: flex;
     height: 100%;
@@ -140,7 +139,6 @@ export default {
   }
   .setting-font-family {
     flex: 1;
-    background: #fff;
     font-size: px2rem(14);
     @include center;
     .setting-font-family-text-wrapper {
