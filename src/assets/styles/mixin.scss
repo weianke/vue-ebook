@@ -54,6 +54,13 @@ $animationType: linear;
   text-overflow: ellipsis; // 超出部分用省略号表示
   overflow: hidden;
 }
+
+@mixin ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
  // 限定文本显示行数
 @mixin nowrap-line($line){
   display: -webkit-box;
