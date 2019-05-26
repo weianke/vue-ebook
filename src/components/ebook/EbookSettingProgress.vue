@@ -4,13 +4,13 @@
          v-show="menuVisible && settingVisible === 2">
       <div class="setting-progress">
         <div class="read-time-wrapper">
-          <span class="read-time-text"></span>
+          <span class="read-time-text">{{getReadTimeText()}}</span>
           <span class="icon-forward"></span>
         </div>
         <div class="progress-wrapper">
-          <div class="progress-icon-wrapper">
-            <span class="icon-back"
-                  @click="prevSection"></span>
+          <div class="progress-icon-wrapper"
+               @click="prevSection">
+            <span class="icon-back"></span>
           </div>
           <input class="progress"
                  type="range"
@@ -28,7 +28,7 @@
           </div>
         </div>
         <div class="text-wrapper">
-          <span class="progress-section-text"></span>
+          <span class="progress-section-text">{{getSectionName}}</span>
           <span class="progress-text">({{bookAvailable ? progress + '%' : $t('book.loading')}})</span>
         </div>
       </div>
@@ -38,8 +38,7 @@
 
 <script type="text/ecmascript-6">
 import { ebookMixin } from '../../utils/mixin'
-// import { saveProgress } from '../../utils/localStorage'
-
+import { getReadTime } from '../../utils/localStorage'
 export default {
   mixins: [ebookMixin],
   data () {
@@ -47,12 +46,42 @@ export default {
       isProgressLoading: false
     }
   },
+  computed: {
+    getSectionName () {
+      if (this.section) {
+        const sectionInfo = this.currentBook.section(this.section)
+        if (sectionInfo && sectionInfo.href) {
+          return this.currentBook.navigation.get(sectionInfo.href).label
+        }
+      }
+    }
+  },
   methods: {
+    // 点击跳转上一章进度
     prevSection () {
-
+      if (this.section > 0 && this.bookAvailable) {
+        // 设置 -1 为返回上一章
+        this.setSection(this.section - 1).then(() => {
+          // 通过book对象设置章节
+          this.displaySection()
+        })
+      }
     },
+    // 点击跳转下一张
     nextSection () {
-
+      // spline是阅读进度并且分页完成
+      if (this.section < this.currentBook.spine.length - 1 && this.bookAvailable) {
+        this.setSection(this.section + 1).then(() => {
+          // 通过book对象设置章节          
+          this.displaySection()
+        })
+      }
+    },
+    displaySection () {
+      const sectionInfo = this.currentBook.section(this.section)
+      if (sectionInfo && sectionInfo.href) {
+        this.display(sectionInfo.href)
+      }
     },
     onProgressInput (progress) {
       this.setProgress(progress).then(() => {
@@ -71,7 +100,20 @@ export default {
     // 具体展示分页的页面
     displayProgress () {
       const cfi = this.currentBook.locations.cfiFromPercentage(this.progress / 100)
-      this.currentBook.rendition.display(cfi)
+      this.display(cfi)
+    },
+    getReadTimeText () {
+      return this.$t('book.haveRead').replace('$1', this.getReadTimeByMinute())
+    },
+    getReadTimeByMinute () {
+      const readTime = getReadTime(this.fileName)
+      console.log(readTime)
+      if (!readTime) {
+        return 0
+      } else {
+        // 向上取整 返回分钟
+        return Math.ceil(readTime / 60)
+      }
     }
   },
   updated () {
@@ -148,8 +190,6 @@ export default {
       .progress-section-text {
         line-height: px2rem(15);
         @include ellipsis;
-      }
-      .progress-text {
       }
     }
   }

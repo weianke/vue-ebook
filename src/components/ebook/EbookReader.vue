@@ -8,20 +8,24 @@
 import { ebookMixin } from '../../utils/mixin'
 import Epub from 'epubjs'
 import { Promise } from 'q'
-import { getFontFamily, saveFontFamily, saveFontSize, getFontSize, getTheme, saveTheme } from '@/utils/localStorage'
+import { getFontFamily, saveFontFamily, saveFontSize, getFontSize, getTheme, saveTheme, getLocation } from '@/utils/localStorage'
 global.ePub = Epub
 export default {
   mixins: [ebookMixin],
   methods: {
     prevPage () {
       if (this.rendition) {
-        this.rendition.prev()
+        this.rendition.prev().then(() => {
+          this.refreshLocation()
+        })
         this.hideTitleAndMenu()
       }
     },
     nextPage () {
       if (this.rendition) {
-        this.rendition.next()
+        this.rendition.next().then(() => {
+          this.refreshLocation()
+        })
         this.hideTitleAndMenu()
       }
     },
@@ -74,16 +78,30 @@ export default {
         height: innerHeight,
         method: 'default'
       })
-      this.rendition.display().then(() => {
+      // this.rendition.display().then(() => {
+      //   // 设置主题
+      //   this.initTheme()
+      //   // 获取本地存储中的字体大小 刷新也不会丢失
+      //   this.initFontSize()
+      //   // 获取本地存储中的字体 刷新也不会丢失
+      //   this.initFontFamily()
+      //   // 设置全局样式
+      //   this.initGlobalStyle()
+      //   // 保存进度
+      //   this.refreshLocation()
+      // })
+      const location = getLocation(this.fileName)
+      this.display(location, () => {
         // 设置主题
         this.initTheme()
-        // 获取本地存储中的字体大小 刷新也不会丢失
+        //获取本地存储中的字体大小 刷新也不会丢失
         this.initFontSize()
         // 获取本地存储中的字体 刷新也不会丢失
         this.initFontFamily()
         // 设置全局样式
         this.initGlobalStyle()
       })
+
       // 通过epub的钩子函数改变iframe中字体
       this.rendition.hooks.content.register(contents => {
         Promise.all([
@@ -136,6 +154,7 @@ export default {
         return this.book.locations.generate(750 * (window.innerWidth / 375 * (getFontSize(this.fileName) / 16)))
       }).then(locations => {
         this.setBookAvailable(true)
+        this.refreshLocation()
       })
     }
   },

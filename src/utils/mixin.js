@@ -1,6 +1,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import { themeList } from './book'
 import { addCss, removeAllCss } from './utils'
+import { saveLocation } from './localStorage'
 
 export const ebookMixin = {
   computed: {
@@ -53,7 +54,7 @@ export const ebookMixin = {
       'setIsBookmark',
       'setSpeakingIconBottom'
     ]),
-    initGlobalStyle () {
+    initGlobalStyle() {
       removeAllCss()
       switch (this.defaultTheme) {
         case 'default':
@@ -71,6 +72,27 @@ export const ebookMixin = {
         default:
           addCss(`${process.env.VUE_APP_RES_URL}/theme/theme_default.css`)
           break
+      }
+    },
+    refreshLocation () {
+      const currentLocation = this.currentBook.rendition.currentLocation()
+      const startCfi = currentLocation.start.cfi
+      const progress = this.currentBook.locations.percentageFromCfi(startCfi)
+      this.setProgress(Math.floor(progress * 100))
+      saveLocation(this.fileName, startCfi)
+    },
+    display(target, cb) {
+      if (target) {
+        this.currentBook.rendition.display(target).then(() => {
+          this.refreshLocation()
+          // 保存进度后，如果回调函数存在，执行回调函数
+          if (cb) cb()
+        })
+      } else {
+        this.currentBook.rendition.display().then(() => {
+          this.refreshLocation()
+          if (cb) cb()
+        })
       }
     }
   }
