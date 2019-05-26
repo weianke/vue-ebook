@@ -78,23 +78,11 @@ export default {
         height: innerHeight,
         method: 'default'
       })
-      // this.rendition.display().then(() => {
-      //   // 设置主题
-      //   this.initTheme()
-      //   // 获取本地存储中的字体大小 刷新也不会丢失
-      //   this.initFontSize()
-      //   // 获取本地存储中的字体 刷新也不会丢失
-      //   this.initFontFamily()
-      //   // 设置全局样式
-      //   this.initGlobalStyle()
-      //   // 保存进度
-      //   this.refreshLocation()
-      // })
       const location = getLocation(this.fileName)
       this.display(location, () => {
         // 设置主题
         this.initTheme()
-        //获取本地存储中的字体大小 刷新也不会丢失
+        // 获取本地存储中的字体大小 刷新也不会丢失
         this.initFontSize()
         // 获取本地存储中的字体 刷新也不会丢失
         this.initFontFamily()
