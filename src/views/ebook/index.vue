@@ -37,15 +37,14 @@ export default {
   mounted () {
     this.startLoopReadTime()
   },
-  beforeDestroy() {
+  beforeDestroy () {
     // 实例销毁前 清除定时任务
-   if (this.task) {
-     clearInterval(this.task)
-   } 
+    if (this.task) {
+      clearInterval(this.task)
+    }
   }
 }
 </script>
 
 <style scoped lang='scss'>
-
 </style>

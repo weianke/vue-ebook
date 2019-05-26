@@ -72,7 +72,7 @@ export default {
       // spline是阅读进度并且分页完成
       if (this.section < this.currentBook.spine.length - 1 && this.bookAvailable) {
         this.setSection(this.section + 1).then(() => {
-          // 通过book对象设置章节          
+          // 通过book对象设置章节
           this.displaySection()
         })
       }
@@ -107,7 +107,6 @@ export default {
     },
     getReadTimeByMinute () {
       const readTime = getReadTime(this.fileName)
-      console.log(readTime)
       if (!readTime) {
         return 0
       } else {
