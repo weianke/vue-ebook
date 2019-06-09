@@ -2,54 +2,54 @@ $ratio: 375 / 10;
 $animationTime: 0.2s;
 $animationType: linear;
 
-@function px2rem($px){
-  @return $px / $ratio + rem
+@function px2rem($px) {
+  @return $px / $ratio + rem;
 }
 
-@mixin center(){
+@mixin center() {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-@mixin right(){
+@mixin right() {
   display: flex;
   justify-content: flex-end;
   align-items: center;
 }
- //  横向居左排列
-@mixin left(){
+//  横向居左排列
+@mixin left() {
   display: flex;
   justify-content: flex-start;
   align-items: center;
 }
-@mixin top(){
+@mixin top() {
   display: flex;
   justify-content: center;
   align-items: flex-start;
 }
- // 纵向居左排列
-@mixin columnLeft(){
+// 纵向居左排列
+@mixin columnLeft() {
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   justify-content: center;
   align-items: left;
 }
- // 纵向居上排列
-@mixin columnTop(){
+// 纵向居上排列
+@mixin columnTop() {
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   justify-content: flex-start;
   align-items: center;
 }
- // 纵向居中排列
-@mixin columnCenter(){
+// 纵向居中排列
+@mixin columnCenter() {
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
- // 不允许换行
-@mixin nowrap(){
+// 不允许换行
+@mixin nowrap() {
   white-space: nowrap; // 不换行
   text-overflow: ellipsis; // 超出部分用省略号表示
   overflow: hidden;
@@ -61,8 +61,8 @@ $animationType: linear;
   white-space: nowrap;
 }
 
- // 限定文本显示行数
-@mixin nowrap-line($line){
+// 限定文本显示行数
+@mixin nowrap-line($line) {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: $line; // 一个块元素显示的文本的行数,必须结合以上两个属性一起使用。目前它仍然是一个不规范的属性
@@ -71,7 +71,7 @@ $animationType: linear;
   text-overflow: ellipsis;
   word-break: break-all; // 允许一个单词上下两行显示，keep-all表示不允许
 }
-@mixin absCenter(){
+@mixin absCenter() {
   position: absolute;
   top: 0;
   left: 0;
@@ -79,56 +79,91 @@ $animationType: linear;
   bottom: 0;
   margin: auto;
 }
-.icon{
+.icon {
   color: #666;
-  font-size:px2rem(16);
+  font-size: px2rem(16);
 }
-.title{
+.title {
   color: #666;
-  font-size:px2rem(16);
-  font-weight:bold;
+  font-size: px2rem(16);
+  font-weight: bold;
 }
- // 设置进入与离开时的过渡动画,enter enter-to enter-active分别表示显示前，显示后，显示中
- // leave leave-to -leave-active表示离开前，离开后，离开中,vue会给包裹在transition标签中的元素自动在相应阶段添加上这六个样式
- // 以下滑为例，下滑出现前,主题栏是看不见的，由于正常状况下这个主题栏是存在的，所以要让它先在y轴方向上向上平移100%，即看不见
-.slide-down-enter,.slide-down-leave-to{
-  transform: translate3d(0,-100%,0)
+// 设置进入与离开时的过渡动画,enter enter-to enter-active分别表示显示前，显示后，显示中
+// leave leave-to -leave-active表示离开前，离开后，离开中,vue会给包裹在transition标签中的元素自动在相应阶段添加上这六个样式
+// 以下滑为例，下滑出现前,主题栏是看不见的，由于正常状况下这个主题栏是存在的，所以要让它先在y轴方向上向上平移100%，即看不见
+.slide-down-enter,
+.slide-down-leave-to {
+  transform: translate3d(0, -100%, 0);
 }
-.slide-down-enter-to,.slide-down-leave,.slide-up-enter-to,.slide-up-leave{
-  transform: translate3d(0,0,0)
+.slide-down-enter-to,
+.slide-down-leave,
+.slide-up-enter-to,
+.slide-up-leave {
+  transform: translate3d(0, 0, 0);
 }
-.slide-down-enter-active,.slide-down-leave-active,.slide-up-enter-active,.slide-up-leave-active,
-.popup-slide-up-enter-active,.popup-slide-up-leave-active,
-.fade-slide-right-enter-active,.fade-slide-right-leave-active,
-.title-move-enter-active,.title-move-leave-to-active,
-.hot-search-move-enter-active,.hot-search-move-leave-active{
-  transition: all 0.2s linear
+.slide-down-enter-active,
+.slide-down-leave-active,
+.slide-up-enter-active,
+.slide-up-leave-active,
+.popup-slide-up-enter-active,
+.popup-slide-up-leave-active,
+.fade-slide-right-enter-active,
+.fade-slide-right-leave-active,
+.title-move-enter-active,
+.title-move-leave-to-active,
+.hot-search-move-enter-active,
+.hot-search-move-leave-active {
+  transition: all 0.2s linear;
 }
 //这里不能设为100%，会导致菜单栏跟设置栏不同步的问题，在离开时没有那么流畅。
 //设为两者高度之和就会让两者运动轨迹保持一致
-.slide-up-enter,.slide-up-leave-to{
-  transform: translate3d(0,px2rem(138),0)
+.slide-up-enter,
+.slide-up-leave-to {
+  transform: translate3d(0, px2rem(138), 0);
 }
-.popup-slide-up-enter,.popup-slide-up-leave-to{
-  transform: translate3d(0,100%,0);
+.popup-slide-up-enter,
+.popup-slide-up-leave-to {
+  transform: translate3d(0, 100%, 0);
   opacity: 0;
 }
-.popup-slide-up-enter-to,.popup-slide-up-leave,
-.fade-slide-right-enter-to,.fade-slide-right-leave,
-.title-move-enter-to,.title-move-leave,
-.hot-search-move-enter-to,.hot-search-move-leave{
-  transform: translate3d(0,0,0);
+.popup-slide-up-enter-to,
+.popup-slide-up-leave,
+.fade-slide-right-enter-to,
+.fade-slide-right-leave,
+.title-move-enter-to,
+.title-move-leave,
+.hot-search-move-enter-to,
+.hot-search-move-leave {
+  transform: translate3d(0, 0, 0);
   opacity: 1;
 }
-.fade-slide-right-enter,.fade-slide-right-leave-to{
-  transform: translate3d(-100%,0,0);
+.fade-slide-right-enter,
+.fade-slide-right-leave-to {
+  transform: translate3d(-100%, 0, 0);
   opacity: 0;
 }
-.title-move-enter,.title-move-leave-to{
-  transform: translate3d(0,px2rem(10),0);
+.title-move-enter,
+.title-move-leave-to {
+  transform: translate3d(0, px2rem(10), 0);
   opacity: 0;
 }
-.hot-search-move-enter,.hot-search-move-leave-to{
-  transform: translate3d(0,px2rem(30),0);
+.hot-search-move-enter,
+.hot-search-move-leave-to {
+  transform: translate3d(0, px2rem(30), 0);
   opacity: 0;
+}
+
+.slide-right-enter,
+.slide-right-leave-to {
+  transform: translate3d(-100%, 0, 0);
+}
+
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition: all 0.2s linear;
+}
+
+.slide-right-enter-to,
+.slide-right-leave {
+  transform: translate3d(0, 0, 0);
 }
