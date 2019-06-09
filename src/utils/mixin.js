@@ -74,7 +74,7 @@ export const ebookMixin = {
           break
       }
     },
-    refreshLocation () {
+    refreshLocation() {
       const currentLocation = this.currentBook.rendition.currentLocation()
       const startCfi = currentLocation.start.cfi
       const progress = this.currentBook.locations.percentageFromCfi(startCfi)
@@ -94,6 +94,11 @@ export const ebookMixin = {
           if (cb) cb()
         })
       }
+    },
+    hideTitleAndMenu() {
+      this.setMenuVisible(false)
+      this.setSettingVisible(-1)
+      this.setFontFamilyVisible(false)
     }
   }
 }
