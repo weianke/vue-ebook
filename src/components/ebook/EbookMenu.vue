@@ -6,7 +6,7 @@
            v-show="menuVisible">
         <div class="icon-wrapper">
           <span class="icon-menu"
-                @click="showSetting(3)"></span>
+                @click="showSetting(3)">1111</span>
         </div>
         <div class="icon-wrapper">
           <span class="icon-progress"
