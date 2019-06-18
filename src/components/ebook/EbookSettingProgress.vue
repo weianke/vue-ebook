@@ -38,7 +38,6 @@
 
 <script type="text/ecmascript-6">
 import { ebookMixin } from '../../utils/mixin'
-import { getReadTime } from '../../utils/localStorage'
 export default {
   mixins: [ebookMixin],
   data () {
@@ -101,18 +100,6 @@ export default {
     displayProgress () {
       const cfi = this.currentBook.locations.cfiFromPercentage(this.progress / 100)
       this.display(cfi)
-    },
-    getReadTimeText () {
-      return this.$t('book.haveRead').replace('$1', this.getReadTimeByMinute())
-    },
-    getReadTimeByMinute () {
-      const readTime = getReadTime(this.fileName)
-      if (!readTime) {
-        return 0
-      } else {
-        // 向上取整 返回分钟
-        return Math.ceil(readTime / 60)
-      }
     }
   },
   updated () {
