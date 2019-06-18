@@ -79,6 +79,16 @@ $animationType: linear;
   bottom: 0;
   margin: auto;
 }
+@mixin ellipsis2($line) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $line;
+  word-break: keep-all;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  overflow-wrap: break-word;
+}
 .icon {
   color: #666;
   font-size: px2rem(16);
