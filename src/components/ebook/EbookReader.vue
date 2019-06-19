@@ -125,12 +125,26 @@ export default {
         event.stopPropagation()
       })
     },
+    parseBook () {
+      this.book.loaded.cover.then(cover => {
+        this.book.archive.createUrl(cover).then(url => {
+          this.setCover(url)
+        })
+      })
+      this.book.loaded.metadata.then(metadata => {
+        this.setMetadata(metadata)
+      })
+      this.book.loaded.navigation.then(navigation => {
+        console.log(navigation)
+      })
+    },
     initEpub () {
       const url = process.env.VUE_APP_RES_URL + '/epub/' + this.fileName + '.epub'
       this.book = new Epub(url)
       this.setCurrentBook(this.book)
       this.initRendition()
       this.initGesture()
+      this.parseBook()
       // 钩子函数做分页
       this.book.ready.then(() => {
         // 设置返回分页默认显示文字数
