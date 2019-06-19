@@ -137,3 +137,12 @@ export function getReadTimeByMinute(fileName) {
     return Math.ceil(readTime / 60)
   }
 }
+
+// 树形结构处理为一级数据
+export function flatten (array) {
+  return [].concat(...array.map(item => [].concat(item, ...flatten(item.subitems))))
+}
+
+export function find (item, level = 0) {
+  return !item.parent ? level : find()
+}

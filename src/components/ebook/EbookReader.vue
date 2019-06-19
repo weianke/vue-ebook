@@ -134,8 +134,27 @@ export default {
       this.book.loaded.metadata.then(metadata => {
         this.setMetadata(metadata)
       })
-      this.book.loaded.navigation.then(navigation => {
-        console.log(navigation)
+      this.book.loaded.navigation.then(nav => {
+        const navItem = (function flatten (arr) {
+          return [].concat(...arr.map(v => [v, ...flatten(v.subitems)]))
+        })(nav.toc)
+
+        function find (item, v = 0) {
+          const parent = navItem.filter(it => it.id === item.parent)[0]
+          return !item.parent ? v : (parent ? find(parent, ++v) : v)
+        }
+
+        navItem.forEach(item => {
+          item.level = find(item)
+          item.total = 0
+          item.pagelist = []
+          if (item.href.match(/^(.*)\.html$/)) {
+            item.idhref = item.href.match(/^(.*)\.html$/)[1]
+          } else if (item.href.match(/^(.*)\.xhtml$/)) {
+            item.idhref = item.href.match(/^(.*)\.xhtml$/)[1]
+          }
+        })
+        this.setNavigation(navItem)
       })
     },
     initEpub () {

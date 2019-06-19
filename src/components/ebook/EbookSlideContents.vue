@@ -31,20 +31,43 @@
         <div class="slide-contents-book-time">{{getReadTimeText()}}</div>
       </div>
     </div>
+    <scroll class="slide-contents-list"
+            :top="156"
+            :bottom="48"
+            ref="scroll">
+      <div class="slide-contents-item"
+           v-for="(item, index) in navigation"
+           :style="contentItemStyle(item)"
+           :key="index">
+        <span class="slide-contents-item-label"
+              :class="{'selected': section === index}">{{item.label}}</span>
+        <span class="slide-contents-item-page"></span>
+      </div>
+    </scroll>
   </div>
 </template>
 
 <script  type='text/ecmascript-6'>
 import { ebookMixin } from '../../utils/mixin'
+import Scroll from '../common/Scroll'
+import { px2rem } from '../../utils/utils'
 
 export default {
   mixins: [ebookMixin],
+  components: {
+    Scroll
+  },
   data () {
     return {
       searchVisible: false
     }
   },
   methods: {
+    contentItemStyle (item) {
+      return {
+        marginLeft: `${px2rem(item.level * 15)}rem`
+      }
+    },
     showSearchPage () {
       this.searchVisible = true
     },
@@ -146,6 +169,26 @@ export default {
         font-size: px2rem(12);
         line-height: px2rem(14);
         margin-top: px2rem(5);
+      }
+    }
+  }
+  .slide-contents-list {
+    padding: 0 px2rem(15);
+    box-sizing: border-box;
+    .slide-contents-item {
+      display: flex;
+      padding: px2rem(20) 0;
+      box-sizing: border-box;
+      .slide-contents-item-label {
+        flex: 1;
+        font-size: px2rem(14);
+        line-height: px2rem(16);
+        @include ellipsis;
+      }
+      .slide-contents-item-page {
+        flex: 0 0 px2rem(30);
+        font-size: px2rem(10);
+        @include right;
       }
     }
   }

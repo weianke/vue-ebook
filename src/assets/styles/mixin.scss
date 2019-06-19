@@ -89,6 +89,16 @@ $animationType: linear;
   text-overflow: ellipsis;
   overflow-wrap: break-word;
 }
+
+@mixin scroll {
+  overflow-x: hidden;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 .icon {
   color: #666;
   font-size: px2rem(16);
