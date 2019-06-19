@@ -40,8 +40,8 @@
            :style="contentItemStyle(item)"
            :key="index">
         <span class="slide-contents-item-label"
-              :class="{'selected': section === index}">{{item.label}}</span>
-        <span class="slide-contents-item-page"></span>
+              :class="{'selected': section === index}">{{item.label.trim()}}</span>
+        <span class="slide-contents-item-page">{{item.page}}</span>
       </div>
     </scroll>
   </div>
