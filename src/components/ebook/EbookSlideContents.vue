@@ -7,6 +7,8 @@
         </div>
         <input class="slide-contents-search-input"
                type="text"
+               v-model="searchText"
+               @keyup.enter="search"
                :placeholder="$t('book.searchHint')"
                @click="showSearchPage">
       </div>
@@ -14,7 +16,8 @@
            v-if="searchVisible"
            @click="hideSearchPage">{{$t('book.cancel')}}</div>
     </div>
-    <div class="slide-contents-book-wrapper">
+    <div class="slide-contents-book-wrapper"
+         v-show="!searchVisible">
       <div class="slide-contents-book-img-wrapper">
         <img class="slide-contents-book-img"
              :src="cover">
@@ -34,6 +37,7 @@
     <scroll class="slide-contents-list"
             :top="156"
             :bottom="48"
+            v-show="!searchVisible"
             ref="scroll">
       <div class="slide-contents-item"
            v-for="(item, index) in navigation"
@@ -42,6 +46,16 @@
         <span class="slide-contents-item-label"
               :class="{'selected': section === index}">{{item.label.trim()}}</span>
         <span class="slide-contents-item-page">{{item.page}}</span>
+      </div>
+    </scroll>
+    <scroll class="slide-search-list"
+            :top="66"
+            :bottom="48"
+            v-show="searchVisible">
+      <div class="slide-search-item"
+           v-for="(item, index) in searchList"
+           :key="index">
+        {{item.excerpt}}
       </div>
     </scroll>
   </div>
@@ -59,10 +73,17 @@ export default {
   },
   data () {
     return {
-      searchVisible: false
+      searchVisible: false,
+      searchList: null,
+      searchText: ''
     }
   },
   methods: {
+    doSearch (q) {
+      return Promise.all(
+        this.currentBook.spine.spineItems.map(item => item.load(this.currentBook.load.bind(this.currentBook)).then(item.find.bind(item, q)).finally(item.unload.bind(item)))
+      ).then(results => Promise.resolve([].concat.apply([], results)));
+    },
     contentItemStyle (item) {
       return {
         marginLeft: `${px2rem(item.level * 15)}rem`
@@ -73,6 +94,16 @@ export default {
     },
     hideSearchPage () {
       this.searchVisible = false
+      this.searchText = ''
+      this.searchList = null
+    },
+    search () {
+      if (!this.searchText && !this.searchText.length) {
+        return
+      }
+      this.doSearch(this.searchText).then(results => {
+        this.searchList = results
+      })
     }
   }
 }
@@ -190,6 +221,16 @@ export default {
         font-size: px2rem(10);
         @include right;
       }
+    }
+  }
+  .slide-search-list {
+    padding: 0 px2rem(15);
+    box-sizing: border-box;
+    .slide-search-item {
+      font-size: px2rem(14);
+      line-height: px2rem(16);
+      padding: px2rem(20) 0;
+      box-sizing: border-box;
     }
   }
 }
