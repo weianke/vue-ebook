@@ -92,7 +92,7 @@ export default {
     doSearch (q) {
       return Promise.all(
         this.currentBook.spine.spineItems.map(item => item.load(this.currentBook.load.bind(this.currentBook)).then(item.find.bind(item, q)).finally(item.unload.bind(item)))
-      ).then(results => Promise.resolve([].concat.apply([], results)));
+      ).then(results => Promise.resolve([].concat.apply([], results)))
     },
     contentItemStyle (item) {
       return {
@@ -113,9 +113,10 @@ export default {
       }
       this.doSearch(this.searchText).then(results => {
         this.searchList = results
-        this.searchList.map(item =>
+        this.searchList.map(item => {
           item.excerpt = item.excerpt.replace(this.searchText, `<span class="content-search-text">${this.searchText}</span>`)
-        )
+          return item
+        })
       })
     }
   }
