@@ -50,7 +50,7 @@
       </div>
     </scroll>
     <scroll class="slide-search-list"
-            :top="65"
+            :top="66"
             :bottom="48"
             v-show="searchVisible">
       <div class="slide-search-item"
