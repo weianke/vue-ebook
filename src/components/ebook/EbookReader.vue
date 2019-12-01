@@ -1,10 +1,16 @@
 <template>
   <div class="ebook-reader">
     <div id="read"></div>
+    <div
+      class="ebook-reader-mask"
+      @click="onMaskClick"
+      @touchmove="move"
+      @touchend="moveEnd"
+    ></div>
   </div>
 </template>
 
-<script  type='text/ecmascript-6'>
+<script type="text/ecmascript-6">
 import { ebookMixin } from '../../utils/mixin'
 import Epub from 'epubjs'
 import { Promise } from 'q'
@@ -13,6 +19,33 @@ global.ePub = Epub
 export default {
   mixins: [ebookMixin],
   methods: {
+    move (e) {
+      let offsetY = 0
+      if (this.firstOffsetY) {
+        // 拿最后一次move得offsetY的值减去第一次坐标点，得到初始-结束得偏移量
+        offsetY = e.changedTouches[0].clientY - this.firstOffsetY
+        this.setOffsetY(offsetY)
+      } else {
+        this.firstOffsetY = e.changedTouches[0].clientY
+      }
+      e.preventDefault()
+      e.stopPropagation()
+    },
+    moveEnd (e) {
+      this.setOffsetY(0)
+      this.firstOffsetY = null
+    },
+    onMaskClick (e) {
+      const offsetX = e.offsetX
+      const width = window.innerWidth
+      if (offsetX > 0 && offsetX < width * 0.3) {
+        this.prevPage()
+      } else if (offsetX > 0 && offsetX > width * 0.7) {
+        this.nextPage()
+      } else {
+        this.toggleTitleAndMenu()
+      }
+    },
     prevPage () {
       if (this.rendition) {
         this.rendition.prev().then(() => {
@@ -183,5 +216,18 @@ export default {
 }
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
+@import "../../assets/styles/global.scss";
+.ebook-reader {
+  width: 100%;
+  height: 100%;
+  .ebook-reader-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 150;
+    width: 100%;
+    height: 100%;
+  }
+}
 </style>
